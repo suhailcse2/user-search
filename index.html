@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0%;
+            margin: 0%;
+        }
+        
+        .body{
+            background-color: white;
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+    align-items: center;     
+justify-content: center;
+padding: 0px;
+margin: 0px;
+}
+#btn{
+    width: 20%;
+    height: 8%;
+    font-size: 20px;
+    margin: auto;
+    
+}
+    </style>
+</head>
+<body>
+    <form id="userform">
+    <input id="name" type="text" placeholder="Name" required>
+<input id="email" type="email" placeholder="Email" required>
+<input id="phone" type="tel" placeholder="Phone" required>
+<button id="btn">Submit</button>
+</form>
+<input type="number" name="" id="idse" placeholder="SEARCH USER BY ID">
+<button id="getuser">Get User</button>
+<button id="dtb">Delete User</button>
+    <script src="index.js"></script>
+     
+
+</body>
+</html>
