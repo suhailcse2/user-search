@@ -1,3 +1,5 @@
+let users = [];
+let current_user = {}
 let form=document.querySelector("#userform") ;
 
 
@@ -6,19 +8,21 @@ e.preventDefault()
 let Name=document.querySelector("#name").value;
 let Phone=document.querySelector("#phone").value;
 let Email=document.querySelector("#email").value;
-let my_div=document.createElement("div")
+
+
 // my_div.innerHTML=`
 // <h1>Name : ${user.name} </h1>
 // <h1>Email : ${user.email} </h1>
 // <h1>Phone : ${user.phone} </h1>
 // <h1>Id: ${data.id}
 // `
-
 let user={
     name:Name,
     email:Email,
 phone:Phone
 }
+
+
 try{
 let response=await fetch("https://jsonplaceholder.typicode.com/users" , 
     {
@@ -35,20 +39,58 @@ if(!response.ok){
 let data=await response.json();
 console.log(response.status);
 console.log(data.id);
+// let data={
+//     id:data.id,
+//     name:data.name,
+//     email:data.email,
+// phone:data.phone
+// }
+users.push(data);
+console.log(users);
+
 
 let my_div=document.createElement("div")
+my_div.classList.add("userlist")
+
+my_div.id = `user${data.id}`;
+
+// let user 
+// // users.push(user)
+// // console.log(users);
+
+
+
+// users.push(user);
+
+// console.log(users);
 my_div.innerHTML=`
-<h1>Name : ${data.name} </h1>
-<h1>Email : ${data.email} </h1>
-<h1>Phone : ${data.phone} </h1>
-<h1>Id: ${data.id}</h1>
+ <table>
+        <tr>
+            <th>ID</th>
+            <td>${data.id}</td>
+        </tr>
+
+        <tr>
+            <th>Name</th>
+            <td>${data.name}</td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>${data.email}</td>
+        </tr>
+        
+
+        <tr>
+            <th>Phone</th>
+            <td>${data.phone}</td>
+        </tr>
+
+       
+
+    </table>
 `
 document.body.appendChild(my_div)
-
-
-
-
-
 
     }
     catch(error){
@@ -71,8 +113,17 @@ if(!response.ok){
 }
 let user=await response.json()
 
-let new_div=document.createElement("div")
-new_div.classList.add("removehu")
+// let user={
+//     name:Name,
+//     email:Email,
+// phone:Phone
+// }
+users.push(user);
+console.log(users);
+
+let new_div=document.createElement("div")   
+new_div.classList.add("userlist")
+new_div.id = `user${user.id}`;
 new_div.innerHTML=`
          <table>
         <tr>
@@ -113,12 +164,12 @@ new_div.innerHTML=`
     </table>
         `
 document.body.appendChild(new_div);
-    let Name=document.querySelector("#name");
-    Name.value=`${user.name}`
-let Phone=document.querySelector("#phone");
-    Phone.value=`${user.phone}`
-let Email=document.querySelector("#email");
- Email.value=`${user.email}`
+//     let Name=document.querySelector("#name");
+//     Name.value=`${user.name}`
+// let Phone=document.querySelector("#phone");
+//     Phone.value=`${user.phone}`
+// let Email=document.querySelector("#email");
+//  Email.value=`${user.email}`
 
 }
  catch(error){
@@ -126,6 +177,37 @@ let Email=document.querySelector("#email");
         
     }
     
+})
+let fd=document.querySelector("#find")
+fd.addEventListener("click", async ()=> {
+
+let my_id = document.querySelector("#idse").value;
+
+let foundUser = null;
+
+for (let i = 0; i < users.length; i++) {
+
+    if (users[i].id == my_id) {
+        console.log("user found");
+
+        foundUser = users[i];
+        break;
+    }
+    else {
+    console.log("user not found");
+}
+}
+
+ 
+document.querySelector("#name").value=`${foundUser.name}`;
+      document.querySelector("#phone").value=`${foundUser.phone}`;
+document.querySelector("#email").value=`${foundUser.email}`;
+let det=document.querySelector(`#user${my_id}`);
+det.style.background = "rgb(199, 194, 194)";
+
+
+
+
 })
 let dltb=document.querySelector("#dtb")
    dltb.addEventListener("click", async ()=> {
@@ -140,13 +222,125 @@ let response=await fetch(`https://jsonplaceholder.typicode.com/users/${my_id}`,
         }
     );
 
+
     if (response.ok) {
         console.log("User deleted");
-let det=document.querySelector(".removehu");
+let det=document.querySelector(`#user${my_id}`);
         document.body.removeChild(det);
     }
 })
+
+    let edit_b=document.querySelector("#edit")
+   edit_b.addEventListener("click", async ()=> {
+
+   let my_id=document.querySelector("#idse").value;
+let Name=document.querySelector("#name").value;
+      let Phone=document.querySelector("#phone").value;
+let Email=document.querySelector("#email").value;
+if(my_id<11){
+ let updatedUser = {
+       name: `${Name}`,
+      email : `${Email}`,
+          phone: `${Phone}`
+    };
+
+let response=await fetch(`https://jsonplaceholder.typicode.com/users/${my_id}`,
+        
+        {
+            method: "PATCH",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify(
+                // name: `${Name}`
+                // email : `${Email}`
+                // phone: `${Phone}`
+            updatedUser)
+        }
+    );
+
+    let data = await response.json();
+
+ if (response.ok) {
+        console.log("User update");
+let det=document.querySelector(`#user${my_id}`);
+
+det.innerHTML=`
+         <table>
+        <tr>
+            <th>ID</th>
+            <td>${data.id}</td>
+        </tr>
+
+        <tr>
+            <th>Name</th>
+            <td>${data.name}</td>
+        </tr>
+
+        <tr>
+            <th>Username</th>
+            <td>${data.username}</td>
+        </tr>
+
+        <tr>
+            <th>Email</th>
+            <td>${data.email}</td>
+        </tr>
+        
+
+        <tr>
+            <th>Phone</th>
+            <td>${data.phone}</td>
+        </tr>
+
+        <tr>
+            <th>City</th>
+            <td>${data.address.city}</td>
+        </tr>
+
+        <tr>
+            <th>Company</th>
+            <td>${data.company.name}</td>
+        </tr>
+    </table>}
+        `
+ }}
+ else{
+    let det=document.querySelector(`#user${my_id}`);
+
+    det.innerHTML=`
+         <table>
+        <tr>
+            <th>ID</th>
+            <td>${my_id}</td>
+        </tr>
+
+        <tr>
+            <th>Name</th>
+            <td>${Name}</td>
+        </tr>
+
     
+
+        <tr>
+            <th>Email</th>
+            <td>${Email}</td>
+        </tr>
+        
+
+        <tr>
+            <th>Phone</th>
+            <td>${Phone}</td>
+        </tr>
+
+    </table>}
+        `
+ }
+}
+   
+)
    
 //  form.addEventListener("submit", (e) => {
 
