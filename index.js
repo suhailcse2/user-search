@@ -1,7 +1,7 @@
 let users = [];
 let current_user = {}
 let form=document.querySelector("#userform") ;
-
+let k=10;
 
 form.addEventListener("submit",async (e) => {
 e.preventDefault()
@@ -9,13 +9,8 @@ let Name=document.querySelector("#name").value;
 let Phone=document.querySelector("#phone").value;
 let Email=document.querySelector("#email").value;
 
+k++;
 
-// my_div.innerHTML=`
-// <h1>Name : ${user.name} </h1>
-// <h1>Email : ${user.email} </h1>
-// <h1>Phone : ${user.phone} </h1>
-// <h1>Id: ${data.id}
-// `
 let user={
     name:Name,
     email:Email,
@@ -38,31 +33,21 @@ if(!response.ok){
 }
 let data=await response.json();
 console.log(response.status);
-console.log(data.id);
-// let data={
-//     id:data.id,
-//     name:data.name,
-//     email:data.email,
-// phone:data.phone
-// }
+
+data.id=k;
 users.push(data);
 console.log(users);
+console.log('data transfer');
+confirm("are you Really Want To added That")
 
 
 let my_div=document.createElement("div")
 my_div.classList.add("userlist")
 
 my_div.id = `user${data.id}`;
-
-// let user 
-// // users.push(user)
-// // console.log(users);
+alert('user added');
 
 
-
-// users.push(user);
-
-// console.log(users);
 my_div.innerHTML=`
  <table>
         <tr>
@@ -113,13 +98,12 @@ if(!response.ok){
 }
 let user=await response.json()
 
-// let user={
-//     name:Name,
-//     email:Email,
-// phone:Phone
-// }
+
 users.push(user);
 console.log(users);
+console.log('user added');
+alert('user added');
+
 
 let new_div=document.createElement("div")   
 new_div.classList.add("userlist")
@@ -164,12 +148,6 @@ new_div.innerHTML=`
     </table>
         `
 document.body.appendChild(new_div);
-//     let Name=document.querySelector("#name");
-//     Name.value=`${user.name}`
-// let Phone=document.querySelector("#phone");
-//     Phone.value=`${user.phone}`
-// let Email=document.querySelector("#email");
-//  Email.value=`${user.email}`
 
 }
  catch(error){
@@ -189,12 +167,15 @@ for (let i = 0; i < users.length; i++) {
 
     if (users[i].id == my_id) {
         console.log("user found");
+alert('user found');
 
         foundUser = users[i];
         break;
     }
     else {
     console.log("user not found");
+    alert('user not found');
+    
 }
 }
 
@@ -226,6 +207,7 @@ let response=await fetch(`https://jsonplaceholder.typicode.com/users/${my_id}`,
     if (response.ok) {
         console.log("User deleted");
 let det=document.querySelector(`#user${my_id}`);
+confirm('are you really want to delete user')
         document.body.removeChild(det);
     }
 })
@@ -254,9 +236,7 @@ let response=await fetch(`https://jsonplaceholder.typicode.com/users/${my_id}`,
             },
 
             body: JSON.stringify(
-                // name: `${Name}`
-                // email : `${Email}`
-                // phone: `${Phone}`
+            
             updatedUser)
         }
     );
@@ -265,6 +245,7 @@ let response=await fetch(`https://jsonplaceholder.typicode.com/users/${my_id}`,
 
  if (response.ok) {
         console.log("User update");
+        confirm('are you really want to update user data')
 let det=document.querySelector(`#user${my_id}`);
 
 det.innerHTML=`
@@ -337,24 +318,8 @@ det.innerHTML=`
 
     </table>}
         `
+        
  }
 }
    
 )
-   
-//  form.addEventListener("submit", (e) => {
-
-//     e.preventDefault();
-
-//     let Name = document.querySelector("#name").value;
-//     let Phone = document.querySelector("#phone").value;
-//     let Email = document.querySelector("#email").value;
-
-//     let user = {
-//         name: Name,
-//         phone: Phone,
-//         email: Email
-//     };
-
-//     console.log(user);
-// })
