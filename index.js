@@ -168,13 +168,11 @@ for (let i = 0; i < users.length; i++) {
     if (users[i].id == my_id) {
         console.log("user found");
 alert('user found');
-
         foundUser = users[i];
         break;
     }
     else {
     console.log("user not found");
-    alert('user not found');
     
 }
 }
